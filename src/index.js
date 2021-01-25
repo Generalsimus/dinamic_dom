@@ -2,9 +2,16 @@ function KD_G(REGISTER_NODE, ATTRIBUTE) {
   var register_LIST = [],
     EXIST_NODES;
   function get_NODES() {
-    var node = KD_T(null, REGISTER_NODE(register));
+    var REGISTER_VALUE = REGISTER_NODE(register);
 
-    return (EXIST_NODES = node instanceof Array ? node : [node]);
+    return (EXIST_NODES = KD_T(
+      null,
+      REGISTER_VALUE instanceof Array
+        ? REGISTER_VALUE.length
+          ? REGISTER_VALUE
+          : [""]
+        : [REGISTER_VALUE]
+    ));
   }
   function register() {
     var reduced = Array.prototype.reduce.call(arguments, function (o, prop) {
@@ -32,11 +39,24 @@ function KD_G(REGISTER_NODE, ATTRIBUTE) {
             descriptor.set(new_v);
           }
           value = new_v;
-          var old_nodes = EXIST_NODES,
-            new_nodes = get_NODES();
-          new_nodes.forEach(function (node, index) {
-            // node.Replace
-          });
+
+          function Replace_nodes() {
+            var old_nodes = EXIST_NODES,
+              new_nodes = get_NODES();
+            old_nodes.forEach(function (node, index) {
+              var new_node = new_nodes[index];
+              if (new_node) {
+                node.Replace(new_node);
+              } else {
+                node.Remove();
+              }
+            });
+          }
+
+          // if (new_nodes.length > old_nodes.length) {
+          //   for (var i = old_nodes.length; i < new_nodes.length; i++) {}
+          // }
+
           // new_nodes.for;
           var s = Math.random();
 
@@ -57,9 +77,12 @@ function KD_G(REGISTER_NODE, ATTRIBUTE) {
     return get_NODES();
   };
 }
-var s = { i: 0 };
+var s = { i: [0, 2, 45, 4] };
 setInterval(() => {
-  s.i++;
+  s.i = [];
+}, 1000);
+setInterval(() => {
+  s.i = ["4"];
 }, 2500);
 KD_T(document.body, [
   {
